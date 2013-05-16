@@ -1,0 +1,22 @@
+#! /usr/bin/env ruby
+require 'hardstatus'
+
+if ARGV.first == '-v' or ARGV.first == '--version'
+	puts Hardstatus.version
+	exit
+end
+
+fail 'no configuration file passed' if ARGV.empty?
+
+EM.run {
+	hardstatus = Hardstatus.load(*ARGV)
+	hardstatus.start
+
+	%w[TERM INT HUP].each {|sig|
+		trap sig do
+			hardstatus.stop
+
+			EM.stop_event_loop
+		end
+	}
+}
