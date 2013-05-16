@@ -41,3 +41,21 @@ class Fixnum
 
 	alias day days
 end
+
+module Kernel
+	def second
+		1.second
+	end
+
+	def minute
+		1.minute
+	end
+
+	def hour
+		1.hour
+	end
+
+	def day
+		1.day
+	end
+end
