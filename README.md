@@ -108,3 +108,9 @@ backtick :battery, every: 5.seconds do
 	end
 end
 ```
+
+Why in the world would you do that?
+-----------------------------------
+Because life is too easy, and tmux handling of windows isn't compatible with my
+workflow, so I have to deal with the shittiness of GNU screen and this makes it
+both usable and useful to my end.
