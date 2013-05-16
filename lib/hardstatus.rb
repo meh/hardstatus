@@ -23,6 +23,7 @@ class Hardstatus
 
 	def initialize
 		@backticks = {}
+		@controller = File.expand_path('~/.hardstatus.ctl')
 	end
 
 	def load (path = nil, &block)

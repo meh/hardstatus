@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <wordexp.h>
 
 int
 main (int argc, char* argv[])
@@ -11,8 +12,20 @@ main (int argc, char* argv[])
 	struct sockaddr_un addr;
 	char buf[4096] = {0};
 	int fd;
-	char* path = argv[1];
-	char* command = argv[2];
+	char* path;
+	char* command;
+
+	if (argc == 2) {
+		wordexp_t p;
+		wordexp("$HOME/.hardstatus.ctl", &p, 0);
+
+		path    = p.we_wordv[0];
+		command = argv[1];
+	}
+	else if (argc == 3) {
+		path    = argv[1];
+		command = argv[2];
+	}
 
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
 		perror("socket error");
