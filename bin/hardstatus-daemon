@@ -1,11 +1,6 @@
 #! /usr/bin/env ruby
 require 'hardstatus'
 
-if ARGV.first == '-v' or ARGV.first == '--version'
-	puts Hardstatus.version
-	exit
-end
-
 fail 'no configuration file passed' if ARGV.empty?
 
 EM.run {
