@@ -26,13 +26,17 @@ Example
 -------
 
 ```ruby
+require 'json'
+require 'socket'
+require 'timeout'
+
 right '#{irssi}#{email}#{hackers}#{processor}#{temperature}#{wireless}#{battery}'
 
 def wrap (string)
 	"\005{= r}[\005{+b W}#{string}\005{= dr}] "
 end
 
-backtick :irssi, every: 1.second do
+backtick :irssi, every: second do
 	notifications = File.read(File.expand_path('~/.irssi/notifications')).gsub(':', '@').split(/, /)
 
 	unless notifications.empty?
@@ -42,11 +46,7 @@ backtick :irssi, every: 1.second do
 	end
 end
 
-require 'json'
-require 'socket'
-require 'timeout'
-
-backtick :email, every: 3.second do
+backtick :email, every: second do
 	socket = TCPSocket.new('localhost', '9001')
 	socket.puts '* list unread'
 
@@ -101,8 +101,8 @@ backtick :battery, every: 5.seconds do
 
 	current = state.match(/([^\s]+%.*)$/)[1].sub(/, /, "\005{-b r}|\005{+b W}")
 
-	if state.match(/discharging/)
-		wrap "v|\005{+b W}#{current}"
+	if state.match(/discharging/i)
+		wrap "\005{-b r}v|\005{+b W}#{current}"
 	else
 		wrap "^\005{-b r}|\005{+b W}#{current}"
 	end
