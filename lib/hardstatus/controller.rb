@@ -18,7 +18,11 @@ class Controller < EventMachine::Protocols::LineAndTextProtocol
 	end
 
 	def receive_line (line)
-		send_line @hardstatus.render(line.strip.to_sym)
+		send_line begin
+			@hardstatus.render(line.strip.to_sym)
+		rescue Exception => e
+			e.inspect
+		end
 
 		close_connection_after_writing
 	end
