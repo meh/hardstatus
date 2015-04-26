@@ -26,6 +26,9 @@ main (int argc, char* argv[])
 		path    = argv[1];
 		command = argv[2];
 	}
+	else {
+		return EXIT_FAILURE;
+	}
 
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
 		perror("socket error");
@@ -47,5 +50,5 @@ main (int argc, char* argv[])
 	recv(fd, buf, 4096, 0);
 	printf("%s", buf);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
