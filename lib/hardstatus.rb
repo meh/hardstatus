@@ -24,6 +24,9 @@ class Hardstatus
 	def initialize
 		@backticks = {}
 		@controller = File.expand_path('~/.hardstatus.ctl')
+
+		@left  = ""
+		@right = ""
 	end
 
 	def load (path = nil, &block)
@@ -81,13 +84,10 @@ class Hardstatus
 	end
 
 	def render (side)
-		template = case side
-		             when :left  then @left || ""
-		             when :right then @right || ""
-		           end
-
-		template.gsub(/\#{.*?}/) { |m|
-			@backticks[m.match(/\#{(.*?)}/)[1].to_sym].value!.to_s
+		instance_variable_get(:"@#{side}").gsub(/\#{.*?}/) { |m|
+			if backtick = @backticks[m.match(/\#{(.*?)}/)[1].to_sym]
+				backtick.value!.to_s
+			end
 		}
 	end
 end
