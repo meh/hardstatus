@@ -88,6 +88,6 @@ class Hardstatus
 			if backtick = @backticks[m.match(/\#{(.*?)}/)[1].to_sym]
 				backtick.value!.to_s
 			end
-		}
+		}.strip
 	end
 end
